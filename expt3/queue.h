@@ -5,7 +5,8 @@ enum Error_code {
     SUCCESS = 0,
     STACK_OVERFLOW,
     STACK_UNDERFLOW
-};                 
+};      
+// ================= 循环队列结构体 =================              
 struct clclequeue
 {
     int* arr;          // 动态数组，存储队列元素            
@@ -19,11 +20,13 @@ struct clclequeue
     }
     ~clclequeue() {
         delete[] arr;
-    }               
+    }            
+    // 禁用拷贝构造和赋值操作      
     clclequeue(const clclequeue&) = delete;
     clclequeue& operator=(const clclequeue&) = delete;
+    // 成员函数：判断队列是否满了           
     bool isFull() {
-        return (rear + 1) % capacity == front;
+        return (rear + 1) % capacity == front;// 循环队列满的条件是 rear 的下一个位置是 front   
     }       
     bool isEmpty() {
         return front == rear;
@@ -50,6 +53,7 @@ struct node
         node* next; // 指针域
         node(int value) : data(value), next(nullptr) {} // 构造函数
     };  
+// ================= 链式队列结构体 =================           
 struct linkqueue
 {
     node* front; // 队头指针            
@@ -61,9 +65,11 @@ struct linkqueue
             front = front->next;
             delete temp;
         }
-    }       
+    }     
+    // 禁用拷贝构造和赋值操作             
     linkqueue(const linkqueue&) = delete;           
-    linkqueue& operator=(const linkqueue&) = delete;                
+    linkqueue& operator=(const linkqueue&) = delete;  
+    // 成员函数：判断队列是否为空                         
     bool isEmpty() {
         return front == nullptr;
     }                   
@@ -94,9 +100,11 @@ struct linkqueue
             count++;
             current = current->next;
         }
-        return count;
+        count++; // 计算 rear 节点  
+        return count;// 返回队列中元素的数量
     }
 };
+// ================= 顺序队列结构体 =================               
 struct queue
 {
     int* arr;          // 动态数组，存储队列元素            
@@ -111,14 +119,17 @@ struct queue
     ~queue() {
         delete[] arr;
     }               
+    // 禁用拷贝构造和赋值操作           
     queue(const queue&) = delete;
     queue& operator=(const queue&) = delete;
+    // 成员函数：判断队列是否满了           
     bool isFull() {
         return rear == capacity; 
     }
     bool isEmpty() {
         return front == rear;
     }           
+    // 成员函数：入队操作           
     void enqueue(int value) {
         if (isFull()) {
             return; // 队列已满，无法入队

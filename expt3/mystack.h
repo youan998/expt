@@ -56,7 +56,8 @@ struct stack {
         value = arr[top]; 
         return SUCCESS;
     }
-     bool isEmpty() {
+    bool isEmpty() {
+        // 栈空的条件是 top == -1，因为 top 是数组下标，初始值为 -1     
         return top == -1;
     }                                   
 };
@@ -82,17 +83,17 @@ struct stacklink {
             current = nextNode;
         }
     }   
-
+    // 防御性编程：禁用拷贝构造和赋值操作               
     stacklink(const stacklink&) = delete;
     stacklink& operator=(const stacklink&) = delete;
-
+    // 成员函数：入栈操作
     void push(T value) {
         node* newNode = new node();
         newNode->data = value;
         newNode->next = top; 
         top = newNode; 
     }
-
+    // 成员函数：将栈顶元素出栈并返回该元素的值
     error_code pop(T &value) { 
         if (top == nullptr) {
             return STACK_UNDERFLOW; 
@@ -103,7 +104,7 @@ struct stacklink {
         delete temp;       
         return SUCCESS; 
     }
-
+    // 成员函数：获取栈顶元素的值但不修改栈                     
     error_code peek(T &value) { 
         if (top == nullptr) {
            return STACK_UNDERFLOW; 

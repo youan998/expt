@@ -2,42 +2,54 @@
 #include "linkedList.h"
 #include <vector>
 using namespace std;
-void deleteElement(linkedList& list) {
-    if (list.head == nullptr) return;
-
-    Node* slow = list.head;
-    // 外层循环：slow 依次遍历每一个节点
-    while (slow != nullptr) {
-        Node* fast = slow; 
-        // 内层循环：fast 负责排查 slow 后面的所有节点
-        while (fast->next != nullptr) { // 【关键修正3】确保 fast->next 不为空，安全防范段错误
-            if (fast->next->data == slow->data) {
-                // 发现重复，断开并删除 fast 的下一个节点
-                Node* temp = fast->next; 
-                fast->next = fast->next->next; 
-                delete temp;
-            } else {
-                fast = fast->next; // 没有重复，fast 往后走
-            }
-        }
-        slow = slow->next; // 换下一个数字继续排雷
-    }
-}         
 void add(linkedList& list1, linkedList& list2) {
-    if (list1.head == nullptr) {
-        list1.head = list2.head;
-        list2.head = nullptr; //断开 list2，防止后续被重复析构释放内存
-        list1.displaylist();
+    // 如果 L1 或 L2 为空，安全返回
+    if (list1.head == nullptr || list2.head == nullptr) {
+        cout<<"无公共元素";
         return;
     }
-    Node* i = list1.head;
-    while (i->next != nullptr) {  
-        i = i->next;
+    // p1 和 p2 分别指向两个链表的第一个真实节点
+    Node* p1 = list1.head->next; 
+    Node* p2 = list2.head->next; 
+    
+    // tail 用于拼接新的合并链表，初始指向 L1 的头结点
+    Node* tail = list1.head;     
+
+    // 同时遍历两个链表
+    while (p1 != nullptr && p2 != nullptr) {
+        if (p1->data < p2->data) {
+            tail->next = p1;      // 将较小的 p1 接入新链表
+            tail = p1;            // tail 指针后移
+            p1 = p1->next;        // p1 指针后移
+        } 
+        else if (p1->data > p2->data) {
+            tail->next = p2;      // 将较小的 p2 接入新链表
+            tail = p2;
+            p2 = p2->next;
+        } 
+        else { 
+            // p1->data == p2->data 的情况（发现重复元素）
+            tail->next = p1;      // 保留 p1
+            tail = p1;
+            p1 = p1->next;
+            
+            // 释放 L2 中重复的节点
+            Node* temp = p2;
+            p2 = p2->next;
+            delete temp;
+        }
     }
-    i->next = list2.head;
-    list2.head = nullptr; //断开 list2，防止后续被重复析构释放内存                      
-    deleteElement(list1); // 删除合并后链表中的重复元素                 
-    list1.displaylist(); // 输出合并后的链表                    
+
+    // 将未遍历完的剩余链表直接接到尾部
+    if (p1 != nullptr) {
+        tail->next = p1;
+    } else if (p2 != nullptr) {
+        tail->next = p2;
+    }
+    // 删除 L2 的头结点
+    delete list2.head;
+    list2.head = nullptr; // 防悬空指针
+    list1.displaylist(); // 输出合并后的链表
 }
 int main() {
     linkedList list1, list2;
@@ -51,8 +63,7 @@ int main() {
     }               
     cout<<"第一次实验："<<endl;     
     add(list1, list2);  
-    list1.head=nullptr;
-    list2.head=nullptr;    
+    list1.head=nullptr;   
     values1= {1,3,6,10,15,16,17,18,19,20};
     values2= {2,4,5,7,8,9,12,22};
     for (int value : values1) {
@@ -64,7 +75,6 @@ int main() {
     cout<<"第二次实验："<<endl;         
     add(list1, list2);      
     list1.head=nullptr;         
-    list2.head=nullptr; 
     values1= {};        
     values2= {1,2,3,4,5,6,7,8,9,10};
     for (int value : values1) {

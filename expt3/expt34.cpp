@@ -3,7 +3,8 @@
 using namespace std;  
 void live1(linkqueue &q,int k,int m)
 {
-    while (q.count()+1>m)
+    //链队列
+    while (q.count()>m)
     {
         for (int i = 1; i < k; i++)
         {
@@ -24,6 +25,7 @@ void live1(linkqueue &q,int k,int m)
 }
 void live2(queue &q, int k, int m)
 {
+    //顺序队列
     while (q.count()>m)
     {
         for (int i = 1; i < k; i++)

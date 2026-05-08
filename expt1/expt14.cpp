@@ -3,6 +3,7 @@
 #include "seqlist.h"
 using namespace std; 
 void insertlist(list &L, vector<int> value){
+    // 插入一组元素到顺序表 L 中，保持 L 中元素的有序性
     L.size = 0; // 确保在插入前清空顺序表               
     for (int i = 0; i < value.size(); i++) {
         L.insert(value[i]); 
@@ -22,9 +23,10 @@ void deletelement(list &L) {
             L.data[slow] = L.data[fast]; // 把新数字赋值过去
         }
     }
-    L.size = slow + 1; 
+    L.size = slow + 1; // 更新顺序表的大小，慢指针所在位置就是最后一个不重复元素的位置
     cout << "删除重复元素后的表: ";
     L.display();
+    // 这个算法的时间复杂度是 O(n)，因为快指针和慢指针各自最多遍历一次整个表。
 }         
 int main(){
     list L;

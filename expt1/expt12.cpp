@@ -20,6 +20,7 @@ void Distinguish(list L){
     evenList.display(); // 输出偶数表               
 
 }
+//测试代码
 int main(){
     list L1, L2;
     vector<int> values1= {1,2,3,4,5,6,7,8,9,10,20,30,40,50,60};

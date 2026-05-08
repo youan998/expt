@@ -5,11 +5,11 @@ struct Node {
     Node* link;
 };
 int findKthFromEnd(Node* list, int k) {
-    // 防御性编程：处理空指针或非法 k 值
+    // 合法性检验：处理空指针或非法 k 值
     if (list == nullptr || list->link == nullptr || k <= 0) {
         return 0; 
     }
-
+    
     // 初始化快慢指针，指向第一个实际数据结点
     Node* slow = list->link;
     Node* fast = list->link;

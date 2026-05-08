@@ -6,9 +6,10 @@ void deside(stack <char> &s, string input) {
     char topChar;
     for (char c : input) {
         if (c == '(' || c == '{' || c == '[') {
-            s.push(c); 
+            s.push(c); // 遇到左括号，入栈          
         } else {
-            if (s.peek(topChar) != SUCCESS) {
+            // 遇到右括号，检查栈顶元素是否匹配
+            if (s.peek(topChar) != SUCCESS/*栈空，说明没有匹配的左括号*/) {
                 cout << "无左括号";
                 return;
             }

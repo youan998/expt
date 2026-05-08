@@ -3,12 +3,15 @@
 #include "seqlist.h"
 using namespace std; 
 void insertlist(list &L, vector<int> value){
+    // 插入一组元素到顺序表 L 中，保持 L 中元素的有序性 
     for (int i = 0; i < value.size(); i++) {
         L.insert(value[i]); 
     }
 }   
 void Publicelement(const list &L1, const list &L2){
+    // 找出两个有序顺序表 L1 和 L2 中的公共元素，存储在 publicList 中
     list publicList; 
+    // 使用双指针法，分别指向 L1 和 L2 的开头   
     int i = 0, j = 0;
     while (i < L1.size && j < L2.size) {
         if (L1.data[i] == L2.data[j]) {

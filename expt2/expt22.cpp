@@ -4,9 +4,9 @@
 using namespace std;   
 void  Publicelement(linkedList& list1, linkedList& list2) {
     linkedList publicList; // 存储公共元素的链表
-    Node* i = list1.head;   
+    Node* i = list1.head;// 外层循环：i 依次遍历 list1 中的每一个节点      
     while (i != nullptr) {
-        Node* j = list2.head;
+        Node* j = list2.head;// 内层循环：j 负责排查 i 在 list2 中是否存在      
         while (j != nullptr) {
             if (i->data == j->data) {
                 publicList.insert(i->data); // 插入公共元素到公共链表

@@ -3,6 +3,7 @@
 using namespace std;        
 void live(clclequeue &q,int k,int m)
 {
+    //k 是每次要删除的第 k 个元素，m 是要留下的元素个数
     while ((q.rear+q.capacity-q.front)%q.capacity>m)
     {
         for (int i = 1; i < k; i++)
